@@ -26,3 +26,4 @@ class Gato:
 
 meu_gato = Gato ("Angorá", "Branca", "Pelo longo", 7, "Lua")
 meu_gato.miar()
+
