@@ -13,3 +13,4 @@ tela = Janela2()
 tela.show()
 app.exec()
 
+
