@@ -117,7 +117,6 @@ class Caixa(QWidget):
        
        
        
-       
         self.label_col_direita = QLabel()
         self.label_col_direita.setStyleSheet("QLabel{background-color:#ffff66}")
 
