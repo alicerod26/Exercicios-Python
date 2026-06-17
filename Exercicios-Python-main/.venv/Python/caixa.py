@@ -152,5 +152,6 @@ janela = Caixa()
 janela.show()
 app.exec()
   
+  
  
  
