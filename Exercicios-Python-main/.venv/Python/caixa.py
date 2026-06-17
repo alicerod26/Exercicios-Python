@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QWidget,QLabel,QLineEdit,QTableWidget, QVBoxLayout,QHBoxLayout
 from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
 from sys import argv
  
 class Caixa(QWidget):
@@ -118,25 +119,26 @@ class Caixa(QWidget):
         self.tabela_produtos.setColumnCount(5)
         # Adicionar o cabeçalho a tabela
         self.tabela_produtos.setHorizontalHeaderLabels(cabecalho)
+        # Adicionar algumas linhas
+        self.tabela_produtos.setRowCount(20)
         
 
 
 
         self.label_total_pagar = QLabel("Total a Pagar")
-        self.label_total_pagar.setStyleSheet("QLabel{font-weight:bold;font-size:15pt;font-family: 'Segoe UI'; color:#00695c}")
+        self.label_total_pagar.setStyleSheet("QLabel{font-weight:bold;font-size:25pt;font-family: 'Segoe UI'; color:#00695c}")
 
         self.edit_total_pagar = QLineEdit("0,00")
-        self.edit_total_pagar.setStyleSheet("QLineEdit{border: 2px solid #4db6ac;font-weight:bold;font-size:15pt;font-family: 'Segoe UI'; color:#e57373}")
+        self.edit_total_pagar.setStyleSheet("QLineEdit{border: 2px solid #4db6ac;font-weight:bold;font-size:35pt;font-family: 'Segoe UI'; color:#e57373}")
+        self.edit_total_pagar.setEnabled(False)
 
         # Adicionar os controles ao layout vertical da coluna da direita
         self.layout_vert_col_dir.addWidget(self.tabela_produtos)
         self.layout_vert_col_dir.addWidget(self.label_total_pagar)
         self.layout_vert_col_dir.addWidget(self.edit_total_pagar)
-
+        
         # Setar o layout vertical da coluna da direita na coluna da direita
         self.label_col_direita.setLayout(self.layout_vert_col_dir)
- 
- 
  
  
         # Adicionar as colunas esquerda e direita ao layout horizontal
@@ -145,6 +147,16 @@ class Caixa(QWidget):
  
         # Setar o layout horizontal a nossa janela
         self.setLayout(self.layout_horizontal)
+
+        # Vamos usar a função keyPress para fazer a janela observar as teclas que estão digitadas e, assim, apturar a tecla específica e executar uma ação
+        self.keyPressEvent = self.keyPressEvent
+    
+    def keyPressEvent(self, e):
+        if(e.key()==Qt.Key.Key_F3):
+            print("Você digitou a tecla F3")
+            
+
+        return super().keyPressEvent(e)
  
  
 app = QApplication(argv)
@@ -152,6 +164,6 @@ janela = Caixa()
 janela.show()
 app.exec()
   
-  
+
  
  
