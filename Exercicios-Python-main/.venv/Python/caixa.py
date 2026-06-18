@@ -1,13 +1,19 @@
-from PyQt6.QtWidgets import QApplication, QWidget,QLabel,QLineEdit,QTableWidget, QVBoxLayout,QHBoxLayout
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QApplication, QWidget,QLabel,QLineEdit,QTableWidget, QVBoxLayout,QHBoxLayout, QTableWidgetItem
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 from sys import argv
  
 class Caixa(QWidget):
+    
     def __init__(self):
+        self.linha = 0
+        self.valor_total = 0.0
+
         super().__init__()
         self.setWindowTitle("Caixa da Padaria")
         self.setGeometry(150,50,1600,900)
+
+        self.setWindowIcon(QIcon("icone.png"))
  
         # Criar o layout horizontal
         self.layout_horizontal = QHBoxLayout()
@@ -100,8 +106,6 @@ class Caixa(QWidget):
         # Setar o layout vertical a label coluna esquerda
         self.label_col_esquerda.setLayout(self.layout_vert_col_esq)
        
-       
-       
        # ============ Trabalahndo com a coluna da direita ================
        
         self.label_col_direita = QLabel()
@@ -150,20 +154,40 @@ class Caixa(QWidget):
 
         # Vamos usar a função keyPress para fazer a janela observar as teclas que estão digitadas e, assim, apturar a tecla específica e executar uma ação
         self.keyPressEvent = self.keyPressEvent
-    
+
     def keyPressEvent(self, e):
         if(e.key()==Qt.Key.Key_F3):
-            print("Você digitou a tecla F3")
+            sub = float(self.edit_quantidade_produto.text()) * float(self.edit_preco_produto.text())
+            self.edit_sub_total_produto.setText(str(sub))
+
+            self.tabela_produtos.setItem(self.linha,0,QTableWidgetItem(self.edit_cod_produto.text()))           
+            self.tabela_produtos.setItem(self.linha,1,QTableWidgetItem(self.edit_nome_produto.text()))
+            self.tabela_produtos.setItem(self.linha,2,QTableWidgetItem(self.edit_quantidade_produto.text()))
+            self.tabela_produtos.setItem(self.linha,3,QTableWidgetItem(self.edit_preco_produto.text()))
+            self.tabela_produtos.setItem(self.linha,4,QTableWidgetItem(self.edit_sub_total_produto.text()))
+            self.linha+=1
+
+            self.valor_total+=sub
+
+            self.edit_total_pagar.setText(str(self.valor_total))
+
+            self.edit_cod_produto.setText("")
+            self.edit_nome_produto.setText("")
+            self.edit_quantidade_produto.setText("")
+            self.edit_descricao_produto.setText("")
+            self.edit_preco_produto.setText("")
+            self.edit_sub_total_produto.setText("Tecle F3 para calcular o sub total")
+
             
 
-        return super().keyPressEvent(e)
- 
- 
+
 app = QApplication(argv)
 janela = Caixa()
 janela.show()
 app.exec()
   
+
+ 
 
  
  
